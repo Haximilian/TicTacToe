@@ -1,6 +1,6 @@
 :- use_module(library(clpfd)).
 
-% define the domain of the board
+% board domain
 point(1, 1).
 point(1, 2).
 point(1, 3).
@@ -11,35 +11,14 @@ point(3, 1).
 point(3, 2).
 point(3, 3).
 
-% initialize the board
-:- asserta(status(available, point(1, 1))).
-:- asserta(status(available, point(1, 2))).
-:- asserta(status(available, point(1, 3))).
-:- asserta(status(available, point(2, 1))).
-:- asserta(status(available, point(2, 2))).
-:- asserta(status(available, point(2, 3))).
-:- asserta(status(available, point(3, 1))).
-:- asserta(status(available, point(3, 2))).
-:- asserta(status(available, point(3, 3))).
+% compute board state
+mark([a, _, _, _, _, _, _, _, _], [Player, _, _, _, _, _, _, _, _], Player, 1, 1).
+mark([_, a, _, _, _, _, _, _, _], [_, Player, _, _, _, _, _, _, _], Player, 1, 2).
+mark([_, _, a, _, _, _, _, _, _], [_, _, Player, _, _, _, _, _, _], Player, 1, 3).
+mark([_, _, _, a, _, _, _, _, _], [_, _, _, Player, _, _, _, _, _], Player, 2, 1).
+mark([_, _, _, _, a, _, _, _, _], [_, _, _, _, Player, _, _, _, _], Player, 2, 2).
+mark([_, _, _, _, _, a, _, _, _], [_, _, _, _, _, Player, _, _, _], Player, 2, 3).
+mark([_, _, _, _, _, _, a, _, _], [_, _, _, _, _, _, Player, _, _], Player, 3, 1).
+mark([_, _, _, _, _, _, _, a, _], [_, _, _, _, _, _, _, Player, _], Player, 3, 2).
+mark([_, _, _, _, _, _, _, _, a], [_, _, _, _, _, _, _, _, Player], Player, 3, 3).
 
-play(State, point(X, Y)) :-
-    retract(status(available, point(X, Y))),
-    asserta(status(State, point(X, Y))).
-
-diagnal(point(XOne, YOne), point(XTwo, YTwo)) :- 
-    XOne #= XTwo + 1,
-    YOne #= YTwo + 1.
-
-diagnal(point(XOne, YOne), point(XTwo, YTwo)) :- 
-    XOne #= XTwo - 1,
-    YOne #= YTwo - 1.
-
-% win(First, Second, Third) :- win(First, Third, Second).
-% win(First, Second, Third) :- win(Second, First, Third).
-
-win(First, Second, Third) :- 
-    diagnal(First, Second),
-    diagnal(Second, Third),
-    dif(First, Second),
-    dif(Second, Third),
-    dif(First, Third).
