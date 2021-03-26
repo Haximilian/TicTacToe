@@ -1,15 +1,15 @@
 :- use_module(library(clpfd)).
 
 % update board state
-mark([a, _, _, _, _, _, _, _, _], [Player, _, _, _, _, _, _, _, _], Player, 1, 1).
-mark([_, a, _, _, _, _, _, _, _], [_, Player, _, _, _, _, _, _, _], Player, 1, 2).
-mark([_, _, a, _, _, _, _, _, _], [_, _, Player, _, _, _, _, _, _], Player, 1, 3).
-mark([_, _, _, a, _, _, _, _, _], [_, _, _, Player, _, _, _, _, _], Player, 2, 1).
-mark([_, _, _, _, a, _, _, _, _], [_, _, _, _, Player, _, _, _, _], Player, 2, 2).
-mark([_, _, _, _, _, a, _, _, _], [_, _, _, _, _, Player, _, _, _], Player, 2, 3).
-mark([_, _, _, _, _, _, a, _, _], [_, _, _, _, _, _, Player, _, _], Player, 3, 1).
-mark([_, _, _, _, _, _, _, a, _], [_, _, _, _, _, _, _, Player, _], Player, 3, 2).
-mark([_, _, _, _, _, _, _, _, a], [_, _, _, _, _, _, _, _, Player], Player, 3, 3).
+mark([a|T], [Player|T], Player, 1, 1).
+mark([A, a|T], [A, Player|T], Player, 1, 2).
+mark([A, B, a|T], [A, B, Player|T], Player, 1, 3).
+mark([A, B, C, a|T], [A, B, C, Player|T], Player, 2, 1).
+mark([A, B, C, D, a|T], [A, B, C, D, Player|T], Player, 2, 2).
+mark([A, B, C, D, E, a|T], [A, B, C, D, E, Player|T], Player, 2, 3).
+mark([A, B, C, D, E, F, a|T], [A, B, C, D, E, F, Player|T], Player, 3, 1).
+mark([A, B, C, D, E, F, G, a|T], [A, B, C, D, E, F, G, Player|T], Player, 3, 2).
+mark([A, B, C, D, E, F, G, H, a], [A, B, C, D, E, F, G, H, Player], Player, 3, 3).
 
 % extract available positions
 % mark([a, a, a, a, o, a, a, a, a], _, x, X, Y).
