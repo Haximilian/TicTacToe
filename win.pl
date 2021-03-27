@@ -1,4 +1,6 @@
-:- use_module(library(clpfd)).
+% compute opponent
+opponent(x, o).
+opponent(o, x).
 
 % update board state
 mark([a|T], [Player|T], Player, 1, 1).
@@ -40,3 +42,21 @@ win(Board, Player) :-
     mark(_, Board, Player, 1, 3),
     mark(_, Board, Player, 2, 2),
     mark(_, Board, Player, 3, 1).
+
+% extract winning move
+% win(B, x), mark([x, x, a, a, x, a, x, o, a], B, x, X, Y).
+% this example produces two instance of an (x, y) pair amongst other pairs
+% since this pair causes both a diagnal and row win
+
+% force_win(P, X, Y) :- 
+%     mark(P, C, x, X, Y),
+%     win(C, x).
+
+% force_win(P, X, Y) :-
+%     mark(P, C, x, X, Y),
+%     mark(C, N, o, _, _),
+%     force_win(N, _, _).
+
+% symmetry optimization
+% define board equality
+% memoization
