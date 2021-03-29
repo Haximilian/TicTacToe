@@ -45,17 +45,37 @@ win(Board, Player) :-
 
 % extract winning move
 % win(B, x), mark([x, x, a, a, x, a, x, o, a], B, x, X, Y).
-% this example produces two instance of an (x, y) pair amongst other pairs
-% since this pair causes both a diagnal and row win
+% result contains two instance of a pair because 
+% this pair causes both a horizontal and diagnal win
 
-% force_win(P, X, Y) :- 
-%     mark(P, C, x, X, Y),
-%     win(C, x).
+force_win(P, _, _) :-
+    win(P, x).
 
-% force_win(P, X, Y) :-
-%     mark(P, C, x, X, Y),
-%     mark(C, N, o, _, _),
-%     force_win(N, _, _).
+% example
+% force_win([x, a, a, x, x, a, o, o, o], X, Y).
+force_win(P, _, _) :-
+    win(P, o),
+    !,
+    fail.
+
+% example
+% force_win([x, a, a, x, x, a, o, o, a], X, Y).
+force_win(P, X, Y) :- 
+    mark(P, C, x, X, Y),
+    win(C, x).
+
+% example
+% force_win([a, a, a, a, x, a, a, o, a], X, Y).
+force_win(P, X, Y) :-
+    mark(P, C, x, X, Y),
+    forall(mark(C, N, o, _, _), r(N)).
+
+r([x,o,a,a,x,a,a,o,a]).
+r([x,a,o,a,x,a,a,o,a]).
+r([x,a,a,o,x,a,a,o,a]).
+r([x,a,a,a,x,o,a,o,a]).
+r([x,a,a,a,x,a,o,o,a]).
+r([x,a,a,a,x,a,a,o,o]).
 
 % symmetry optimization
 % define board equality
