@@ -48,35 +48,27 @@ win(Board, Player) :-
 % result contains two instance of a pair because 
 % this pair causes both a horizontal and diagnal win
 
-force_win(P, _, _) :-
-    win(P, x).
-
-% example
-% force_win([x, a, a, x, x, a, o, o, o], X, Y).
-force_win(P, _, _) :-
+% opponent won
+% extendedWin([a, a, a, o, o, o, x, x, a]).
+extendedWin(P) :-
     win(P, o),
     !,
-    fail.
+    false.
 
-% example
-% force_win([x, a, a, x, x, a, o, o, a], X, Y).
-force_win(P, X, Y) :- 
-    mark(P, C, x, X, Y),
-    win(C, x).
+extendedWin(P) :-
+    win(P, x).
 
-% example
-% force_win([a, a, a, a, x, a, a, o, a], X, Y).
-force_win(P, X, Y) :-
-    mark(P, C, x, X, Y),
-    forall(mark(C, N, o, _, _), r(N)).
+extendedWin(P) :-
+    findall(N, mark(P, N, o, _, _), L),
+    L = [_|_],
+    forallExtendedWin(L).
 
-r([x,o,a,a,x,a,a,o,a]).
-r([x,a,o,a,x,a,a,o,a]).
-r([x,a,a,o,x,a,a,o,a]).
-r([x,a,a,a,x,o,a,o,a]).
-r([x,a,a,a,x,a,o,o,a]).
-r([x,a,a,a,x,a,a,o,o]).
+forallExtendedWin([]).
+forallExtendedWin([H | T]) :-
+    mark(H, N, x, _, _),
+    extendedWin(N),
+    forallExtendedWin(T).
 
-% symmetry optimization
-% define board equality
-% memoization
+% wholly grail
+% mark([a, a, a, a, x, a, a, o, a], N, x, _, _), extendedWin(N).
+% [x, a, a, a, x, a, x, o, o]
