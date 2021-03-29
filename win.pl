@@ -69,6 +69,22 @@ forallExtendedWin([H | T]) :-
     extendedWin(N),
     forallExtendedWin(T).
 
+% multiple
+% forallExtendedWin([[a, a, a, x, x, a, a, a, a]]).
+
 % wholly grail
 % mark([a, a, a, a, x, a, a, o, a], N, x, _, _), extendedWin(N).
 % [x, a, a, a, x, a, x, o, o]
+
+play([a, a, a, a, a, a, a, a, a]) :- 
+    print([a, a, a]),write("\n"),
+    print([a, x, a]),write("\n"),
+    print([a, a, a]),write("\n").
+
+play(O) :- 
+    mark(O, N, x, _, _), 
+    extendedWin(N),
+    [A, B, C, D, E, F, G, H, I] = N,
+    print([A, B, C]),write("\n"),
+    print([D, E, F]),write("\n"),
+    print([G, H, I]),write("\n").
